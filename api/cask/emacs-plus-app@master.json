@@ -1,0 +1,206 @@
+{
+  "token": "emacs-plus-app@master",
+  "full_token": "d12frosted/emacs-plus/emacs-plus-app@master",
+  "old_tokens": [],
+  "tap": "d12frosted/emacs-plus",
+  "name": [
+    "Emacs+ (Development)"
+  ],
+  "desc": "GNU Emacs text editor with patches (development version)",
+  "homepage": "https://github.com/d12frosted/homebrew-emacs-plus",
+  "url": "https://github.com/d12frosted/homebrew-emacs-plus/releases/download/cask-master-380/emacs-plus-32.0.50-arm64-26.zip",
+  "url_specs": {},
+  "version": "32.0.50-380",
+  "autobump": true,
+  "no_autobump_message": null,
+  "skip_livecheck": false,
+  "installed": null,
+  "installed_time": null,
+  "bundle_version": "9.0",
+  "bundle_short_version": "31.1",
+  "pinned": false,
+  "pinned_version": null,
+  "outdated": false,
+  "sha256": "47913ee57e25e373f862f397dc0a6fdc2492d687e41b4de707c3e08c375660fc",
+  "artifacts": [
+    {
+      "app": [
+        "Emacs.app"
+      ],
+      "target": "/Applications/Emacs.app"
+    },
+    {
+      "app": [
+        "Emacs Client.app"
+      ],
+      "target": "/Applications/Emacs Client.app"
+    },
+    {
+      "binary": [
+        "$APPDIR/Emacs.app/Contents/MacOS/bin/emacsclient"
+      ],
+      "target": "$HOMEBREW_PREFIX/bin/emacsclient"
+    },
+    {
+      "binary": [
+        "$APPDIR/Emacs.app/Contents/MacOS/bin/ebrowse"
+      ],
+      "target": "$HOMEBREW_PREFIX/bin/ebrowse"
+    },
+    {
+      "binary": [
+        "$APPDIR/Emacs.app/Contents/MacOS/bin/etags"
+      ],
+      "target": "$HOMEBREW_PREFIX/bin/etags"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/emacs.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/emacs.1"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/emacsclient.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/emacsclient.1"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/ebrowse.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/ebrowse.1"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/etags.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/etags.1"
+    },
+    {
+      "postflight_steps": [
+        {
+          "steps": [
+            {
+              "command": {
+                "path": "{{HOMEBREW_PREFIX}}/Library/Taps/d12frosted/homebrew-emacs-plus/scripts/cask-postflight"
+              },
+              "print_stdout": true,
+              "writable_paths": [
+                {
+                  "path": "~/.config/emacs-plus"
+                },
+                {
+                  "path": "~/.emacs-plus-build.yml"
+                }
+              ],
+              "network_access": true,
+              "type": "run",
+              "args": [
+                "--emacs-app",
+                "{{appdir}}/Emacs.app",
+                "--emacs-client-app",
+                "{{appdir}}/Emacs Client.app",
+                "--version",
+                "{{version.major}}",
+                "--homebrew-prefix",
+                "{{HOMEBREW_PREFIX}}"
+              ]
+            },
+            {
+              "source": {
+                "base": "appdir",
+                "path": "Emacs.app/Contents/MacOS/bin/emacs"
+              },
+              "target": {
+                "base": "homebrew_prefix",
+                "path": "bin/emacs"
+              },
+              "uninstall": true,
+              "guards": [
+                {
+                  "base": "homebrew_prefix",
+                  "path": "bin/emacs",
+                  "condition": "unless_exists",
+                  "id": "1"
+                }
+              ],
+              "type": "symlink"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "zap": [
+        {
+          "trash": [
+            "~/Library/Caches/org.gnu.Emacs",
+            "~/Library/Preferences/org.gnu.Emacs.plist",
+            "~/Library/Saved Application State/org.gnu.Emacs.savedState"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": "Emacs+ (development) has been installed to /Applications.\n\nThis is a pre-built binary from the Emacs master branch (Emacs 32).\nFor custom patches or build options, use the formula instead:\n  brew install emacs-plus@master --with-...\n\nCustom icons can be configured via ~/.config/emacs-plus/build.yml:\n  icon: dragon-plus\n\nTo re-apply an icon after changing build.yml:\n  brew reinstall --cask emacs-plus-app@master\n\nNote: Emacs Client.app requires Emacs to be running as a daemon.\nAdd to your Emacs config: (server-start)\n\nNote: installing this cask alongside an emacs-plus@N formula is not\nsupported. Both provide emacs and emacsclient in $(brew --prefix)/bin,\nand Homebrew cannot declare a conflict between a cask and a formula.\nKeep one or the other installed.\n",
+  "caveats_rosetta": null,
+  "depends_on": {
+    "arch": [
+      {
+        "type": "arm",
+        "bits": 64
+      }
+    ],
+    "formula": [
+      "gcc",
+      "libgccjit"
+    ],
+    "macos": {
+      ">=": [
+        "15"
+      ]
+    }
+  },
+  "conflicts_with": {
+    "cask": [
+      "emacs",
+      "emacs-mac",
+      "emacs-mac-spacemacs-icon",
+      "emacs-plus-app",
+      "emacs-plus-app@next"
+    ]
+  },
+  "container": null,
+  "rename": [],
+  "auto_updates": null,
+  "deprecated": false,
+  "deprecation_date": null,
+  "deprecation_reason": null,
+  "deprecation_replacement_formula": null,
+  "deprecation_replacement_cask": null,
+  "deprecate_args": null,
+  "disabled": false,
+  "disable_date": null,
+  "disable_reason": null,
+  "disable_replacement_formula": null,
+  "disable_replacement_cask": null,
+  "disable_args": null,
+  "tap_git_head": "e773b8a42eb7b3ec962720ed9b197ca01a72367a",
+  "languages": [],
+  "ruby_source_path": "Casks/emacs-plus-app@master.rb",
+  "ruby_source_checksum": {
+    "sha256": "5cd02cb97838a5be4b3312bdf85e9554b316825c49e015c640047998112423ad"
+  },
+  "variations": {
+    "arm64_sequoia": {
+      "url": "https://github.com/d12frosted/homebrew-emacs-plus/releases/download/cask-master-380/emacs-plus-32.0.50-arm64-15.zip",
+      "sha256": "c2733f1a667ca2f5014cf7191a41bef81c632cca15361e74e1f96ca70933df7e"
+    }
+  },
+  "supported_platforms": [
+    "arm64_golden_gate",
+    "arm64_tahoe",
+    "arm64_sequoia"
+  ]
+}

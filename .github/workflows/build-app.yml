@@ -1796,3 +1796,53 @@ jobs:
               sleep $((i * 2))
             done
           fi
+
+  update-cask-api:
+    # Regenerate api/cask once the release jobs have moved their casks to a
+    # new build. Tools that install casks without Homebrew (such as mise)
+    # read these files instead of the casks. Generating them needs
+    # Homebrew's macOS code, which refuses to load on Linux, so this cannot
+    # run inside the ubuntu release jobs.
+    needs: [release-stable, release-next, release-master]
+    if: always() && github.repository == 'd12frosted/homebrew-emacs-plus' && contains(needs.*.result, 'success')
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      # The release jobs pushed their cask updates after this run started
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: master
+
+      # Homebrew only loads casks from a trusted, installed tap
+      - name: Link checkout into the tap location
+        run: |
+          brew trust d12frosted/emacs-plus
+          TAP_DIR="$(brew --repository)/Library/Taps/d12frosted/homebrew-emacs-plus"
+          mkdir -p "$(dirname "$TAP_DIR")"
+          ln -s "$GITHUB_WORKSPACE" "$TAP_DIR"
+
+      - name: Generate cask API metadata
+        run: brew ruby scripts/generate-cask-api.rb
+
+      - name: Verify cask API metadata
+        run: ruby tests/test_cask_api.rb
+
+      - name: Commit and push cask API metadata
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add api/cask
+          # Only commit if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(api): update cask metadata for build ${{ github.run_number }}"
+            # Retry push with exponential backoff (handles race with other release jobs)
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin master && git push && break
+              echo "Push failed, retrying in $((i * 2)) seconds..."
+              sleep $((i * 2))
+            done
+          fi

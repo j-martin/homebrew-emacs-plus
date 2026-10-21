@@ -1,0 +1,206 @@
+{
+  "token": "emacs-plus-app",
+  "full_token": "d12frosted/emacs-plus/emacs-plus-app",
+  "old_tokens": [],
+  "tap": "d12frosted/emacs-plus",
+  "name": [
+    "Emacs+"
+  ],
+  "desc": "GNU Emacs text editor with patches",
+  "homepage": "https://github.com/d12frosted/homebrew-emacs-plus",
+  "url": "https://github.com/d12frosted/homebrew-emacs-plus/releases/download/cask-stable-364/emacs-plus-31.1-arm64-26.zip",
+  "url_specs": {},
+  "version": "31.1-364",
+  "autobump": true,
+  "no_autobump_message": null,
+  "skip_livecheck": false,
+  "installed": null,
+  "installed_time": null,
+  "bundle_version": "9.0",
+  "bundle_short_version": "31.1",
+  "pinned": false,
+  "pinned_version": null,
+  "outdated": false,
+  "sha256": "418257c53ef43f27077d37bb548fe0bde9b4adffb7573c32977cff8ca93053c1",
+  "artifacts": [
+    {
+      "app": [
+        "Emacs.app"
+      ],
+      "target": "/Applications/Emacs.app"
+    },
+    {
+      "app": [
+        "Emacs Client.app"
+      ],
+      "target": "/Applications/Emacs Client.app"
+    },
+    {
+      "binary": [
+        "$APPDIR/Emacs.app/Contents/MacOS/bin/emacsclient"
+      ],
+      "target": "$HOMEBREW_PREFIX/bin/emacsclient"
+    },
+    {
+      "binary": [
+        "$APPDIR/Emacs.app/Contents/MacOS/bin/ebrowse"
+      ],
+      "target": "$HOMEBREW_PREFIX/bin/ebrowse"
+    },
+    {
+      "binary": [
+        "$APPDIR/Emacs.app/Contents/MacOS/bin/etags"
+      ],
+      "target": "$HOMEBREW_PREFIX/bin/etags"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/emacs.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/emacs.1"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/emacsclient.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/emacsclient.1"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/ebrowse.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/ebrowse.1"
+    },
+    {
+      "manpage": [
+        "$APPDIR/Emacs.app/Contents/Resources/man/man1/etags.1"
+      ],
+      "target": "$HOMEBREW_PREFIX/share/man/man1/etags.1"
+    },
+    {
+      "postflight_steps": [
+        {
+          "steps": [
+            {
+              "command": {
+                "path": "{{HOMEBREW_PREFIX}}/Library/Taps/d12frosted/homebrew-emacs-plus/scripts/cask-postflight"
+              },
+              "print_stdout": true,
+              "writable_paths": [
+                {
+                  "path": "~/.config/emacs-plus"
+                },
+                {
+                  "path": "~/.emacs-plus-build.yml"
+                }
+              ],
+              "network_access": true,
+              "type": "run",
+              "args": [
+                "--emacs-app",
+                "{{appdir}}/Emacs.app",
+                "--emacs-client-app",
+                "{{appdir}}/Emacs Client.app",
+                "--version",
+                "{{version.major}}",
+                "--homebrew-prefix",
+                "{{HOMEBREW_PREFIX}}"
+              ]
+            },
+            {
+              "source": {
+                "base": "appdir",
+                "path": "Emacs.app/Contents/MacOS/bin/emacs"
+              },
+              "target": {
+                "base": "homebrew_prefix",
+                "path": "bin/emacs"
+              },
+              "uninstall": true,
+              "guards": [
+                {
+                  "base": "homebrew_prefix",
+                  "path": "bin/emacs",
+                  "condition": "unless_exists",
+                  "id": "1"
+                }
+              ],
+              "type": "symlink"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "zap": [
+        {
+          "trash": [
+            "~/Library/Caches/org.gnu.Emacs",
+            "~/Library/Preferences/org.gnu.Emacs.plist",
+            "~/Library/Saved Application State/org.gnu.Emacs.savedState"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": "Emacs+ has been installed to /Applications.\n\nThis is a pre-built binary. For custom patches or build options,\nuse the formula instead:\n  brew install emacs-plus --with-...\n\nCustom icons can be configured via ~/.config/emacs-plus/build.yml:\n  icon: dragon-plus\n\nTo re-apply an icon after changing build.yml:\n  brew reinstall --cask emacs-plus-app\n\nNote: Emacs Client.app requires Emacs to be running as a daemon.\nAdd to your Emacs config: (server-start)\n\nNote: installing this cask alongside an emacs-plus@N formula is not\nsupported. Both provide emacs and emacsclient in $(brew --prefix)/bin,\nand Homebrew cannot declare a conflict between a cask and a formula.\nKeep one or the other installed.\n",
+  "caveats_rosetta": null,
+  "depends_on": {
+    "arch": [
+      {
+        "type": "arm",
+        "bits": 64
+      }
+    ],
+    "formula": [
+      "gcc",
+      "libgccjit"
+    ],
+    "macos": {
+      ">=": [
+        "15"
+      ]
+    }
+  },
+  "conflicts_with": {
+    "cask": [
+      "emacs",
+      "emacs-mac",
+      "emacs-mac-spacemacs-icon",
+      "emacs-plus-app@master",
+      "emacs-plus-app@next"
+    ]
+  },
+  "container": null,
+  "rename": [],
+  "auto_updates": null,
+  "deprecated": false,
+  "deprecation_date": null,
+  "deprecation_reason": null,
+  "deprecation_replacement_formula": null,
+  "deprecation_replacement_cask": null,
+  "deprecate_args": null,
+  "disabled": false,
+  "disable_date": null,
+  "disable_reason": null,
+  "disable_replacement_formula": null,
+  "disable_replacement_cask": null,
+  "disable_args": null,
+  "tap_git_head": "e773b8a42eb7b3ec962720ed9b197ca01a72367a",
+  "languages": [],
+  "ruby_source_path": "Casks/emacs-plus-app.rb",
+  "ruby_source_checksum": {
+    "sha256": "43090b3281e16087ff7434497a7e1caf8a5bccc872a5438565970e48974e8d6f"
+  },
+  "variations": {
+    "arm64_sequoia": {
+      "url": "https://github.com/d12frosted/homebrew-emacs-plus/releases/download/cask-stable-364/emacs-plus-31.1-arm64-15.zip",
+      "sha256": "76acc048cf3413ae15fc099ef7242143add7e6ab348bd84f7341b6419320a38a"
+    }
+  },
+  "supported_platforms": [
+    "arm64_golden_gate",
+    "arm64_tahoe",
+    "arm64_sequoia"
+  ]
+}
